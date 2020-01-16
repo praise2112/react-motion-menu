@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bokuweb/react-motion-menu.git"
+    "url": "https://github.com/praise2112/react-motion-menu.git"
   },
   "keywords": [
     "react",
@@ -25,9 +25,9 @@
   "author": "bokuweb",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bokuweb/react-motion-menu/issues"
+    "url": "https://github.com/praise2112/react-motion-menu.git/issues"
   },
-  "homepage": "https://github.com/bokuweb/react-motion-menu",
+  "homepage": "https://github.com/praise2112/react-motion-menu.git",
   "peerDependencies": {
     "react": ">=15",
     "react-dom": ">=15"
