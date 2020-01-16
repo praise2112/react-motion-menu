@@ -1,129 +1,171 @@
-import React, { Component, cloneElement } from 'react';
-import PropTypes from 'prop-types';
-import { Motion, spring } from 'react-motion';
+'use strict';
 
-const createSmoothParams = ({ x, y }) => ([
-  {
-    scaleX: spring(0, { stiffness: 1500, damping: 100 }),
-    scaleY: spring(0, { stiffness: 1500, damping: 100 }),
-    x: spring(x, { stiffness: 1500, damping: 50 }),
-    y: spring(y, { stiffness: 1500, damping: 50 }),
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+var _propTypes = require('prop-types');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactMotion = require('react-motion');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var createSmoothParams = function createSmoothParams(_ref) {
+  var x = _ref.x,
+      y = _ref.y;
+  return [{
+    scaleX: (0, _reactMotion.spring)(0, { stiffness: 1500, damping: 100 }),
+    scaleY: (0, _reactMotion.spring)(0, { stiffness: 1500, damping: 100 }),
+    x: (0, _reactMotion.spring)(x, { stiffness: 1500, damping: 50 }),
+    y: (0, _reactMotion.spring)(y, { stiffness: 1500, damping: 50 })
   }, {
-    scaleX: spring(0.5, { stiffness: 120, damping: 20 }),
-    scaleY: spring(0.5, { stiffness: 120, damping: 20 }),
-    x: spring(x, { stiffness: 120, damping: 20 }),
-    y: spring(y, { stiffness: 120, damping: 20 }),
+    scaleX: (0, _reactMotion.spring)(0.5, { stiffness: 120, damping: 20 }),
+    scaleY: (0, _reactMotion.spring)(0.5, { stiffness: 120, damping: 20 }),
+    x: (0, _reactMotion.spring)(x, { stiffness: 120, damping: 20 }),
+    y: (0, _reactMotion.spring)(y, { stiffness: 120, damping: 20 })
   }, {
-    scaleX: spring(1, { stiffness: 120, damping: 20 }),
-    scaleY: spring(1, { stiffness: 120, damping: 20 }),
-    x: spring(x, { stiffness: 120, damping: 20 }),
-    y: spring(y, { stiffness: 120, damping: 20 }),
-  },
-]);
+    scaleX: (0, _reactMotion.spring)(1, { stiffness: 120, damping: 20 }),
+    scaleY: (0, _reactMotion.spring)(1, { stiffness: 120, damping: 20 }),
+    x: (0, _reactMotion.spring)(x, { stiffness: 120, damping: 20 }),
+    y: (0, _reactMotion.spring)(y, { stiffness: 120, damping: 20 })
+  }];
+};
 
-const createBumpyParams = (x, y) => ([
-  {
-    scaleX: spring(0, { stiffness: 1500, damping: 100 }),
-    scaleY: spring(0, { stiffness: 1500, damping: 100 }),
-    x: spring(x, { stiffness: 1500, damping: 50 }),
-    y: spring(y, { stiffness: 1500, damping: 50 }),
-  },
-  {
-    scaleX: spring(1.6, { stiffness: 1500, damping: 150 }),
-    scaleY: spring(0.7, { stiffness: 1500, damping: 150 }),
-    x: spring(x, { stiffness: 1500, damping: 100 }),
-    y: spring(y, { stiffness: 1500, damping: 100 }),
-  },
-  {
-    scaleX: spring(1, { stiffness: 1500, damping: 18 }),
-    scaleY: spring(1, { stiffness: 1500, damping: 18 }),
-    x: spring(x, { stiffness: 1500, damping: 100 }),
-    y: spring(y, { stiffness: 1500, damping: 100 }),
-  },
-]);
+var createBumpyParams = function createBumpyParams(x, y) {
+  return [{
+    scaleX: (0, _reactMotion.spring)(0, { stiffness: 1500, damping: 100 }),
+    scaleY: (0, _reactMotion.spring)(0, { stiffness: 1500, damping: 100 }),
+    x: (0, _reactMotion.spring)(x, { stiffness: 1500, damping: 50 }),
+    y: (0, _reactMotion.spring)(y, { stiffness: 1500, damping: 50 })
+  }, {
+    scaleX: (0, _reactMotion.spring)(1.6, { stiffness: 1500, damping: 150 }),
+    scaleY: (0, _reactMotion.spring)(0.7, { stiffness: 1500, damping: 150 }),
+    x: (0, _reactMotion.spring)(x, { stiffness: 1500, damping: 100 }),
+    y: (0, _reactMotion.spring)(y, { stiffness: 1500, damping: 100 })
+  }, {
+    scaleX: (0, _reactMotion.spring)(1, { stiffness: 1500, damping: 18 }),
+    scaleY: (0, _reactMotion.spring)(1, { stiffness: 1500, damping: 18 }),
+    x: (0, _reactMotion.spring)(x, { stiffness: 1500, damping: 100 }),
+    y: (0, _reactMotion.spring)(y, { stiffness: 1500, damping: 100 })
+  }];
+};
 
+var MenuItem = function (_Component) {
+  _inherits(MenuItem, _Component);
 
-export default class MenuItem extends Component {
+  function MenuItem(props) {
+    _classCallCheck(this, MenuItem);
 
-  static propTypes = {
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    onOpenAnimationEnd: PropTypes.func,
-    onCloseAnimationEnd: PropTypes.func,
-    bumpy: PropTypes.bool.isRequired,
-    openSpeed: PropTypes.number.isRequired,
-    reverse: PropTypes.bool.isRequired,
-    type: PropTypes.oneOf(['horizontal', 'vertical', 'circle']).isRequired,
-  }
+    var _this = _possibleConstructorReturn(this, (MenuItem.__proto__ || Object.getPrototypeOf(MenuItem)).call(this, props));
 
-  static defaultProps = {
-    onOpenAnimationEnd: () => {},
-    onCloseAnimationEnd: () => {},
-  }
-
-  constructor(props) {
-    super(props);
-    this.timerIds = [];
-    this.state = {
-      sequence: 0,
+    _this.timerIds = [];
+    _this.state = {
+      sequence: 0
     };
 
-    this.sequenceParams = this.props.bumpy ? createBumpyParams(props) : createSmoothParams(props);
+    _this.sequenceParams = _this.props.bumpy ? createBumpyParams(props) : createSmoothParams(props);
+    return _this;
   }
 
-  start() {
-    this.timerIds[1] = setTimeout(() => {
-      this.setState({ sequence: 1 });
-      this.timerIds[1] = null;
-    }, this.props.openSpeed);
+  _createClass(MenuItem, [{
+    key: 'start',
+    value: function start() {
+      var _this2 = this;
 
-    this.timerIds[2] = setTimeout(() => {
-      this.setState({ sequence: 2 });
-      this.timerIds[2] = null;
-      this.props.onOpenAnimationEnd(this.props.name);
-    }, this.props.openSpeed);
-  }
+      this.timerIds[1] = setTimeout(function () {
+        _this2.setState({ sequence: 1 });
+        _this2.timerIds[1] = null;
+      }, this.props.openSpeed);
 
-  reverse() {
-    this.timerIds.forEach((id) => { if (id) clearTimeout(id); });
-    this.timerIds[0] = setTimeout(() => {
-      this.timerIds[0] = null;
-      this.props.onCloseAnimationEnd(this.props.name);
-    }, 100);
-    this.setState({ sequence: 0 });
-  }
-
-  render() {
-    const { x, y, reverse, type } = this.props;
-    let newX;
-    let newY;
-    if (reverse) {
-      newX = (-1) * (x);
-      newY = type === 'vertical' ? (-1) * (y) : y;
-    } else {
-      newX = x;
-      newY = y;
+      this.timerIds[2] = setTimeout(function () {
+        _this2.setState({ sequence: 2 });
+        _this2.timerIds[2] = null;
+        _this2.props.onOpenAnimationEnd(_this2.props.name);
+      }, this.props.openSpeed);
     }
-    if (!this.props.children) return null;
-    return (
-      <Motion style={this.sequenceParams[this.state.sequence]}>
-        {({ scaleX, scaleY }) => (
-          cloneElement(
-            this.props.children,
-            {
-              ...(this.props.children.props || {}),
-              style: {
-                ...((this.props.children.props && this.props.children.props.style) || {}),
-                transform: `translate3d(${newX}px, ${newY}px, 0) scaleX(${scaleX}) scaleY(${scaleY})`,
-                WebkitTransform: `translate3d(${newX}px, ${newY}px, 0) scaleX(${scaleX}) scaleY(${scaleY})`,
-                position: 'absolute',
-              },
-            },
-          )
-        )
+  }, {
+    key: 'reverse',
+    value: function reverse() {
+      var _this3 = this;
+
+      this.timerIds.forEach(function (id) {
+        if (id) clearTimeout(id);
+      });
+      this.timerIds[0] = setTimeout(function () {
+        _this3.timerIds[0] = null;
+        _this3.props.onCloseAnimationEnd(_this3.props.name);
+      }, 100);
+      this.setState({ sequence: 0 });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this4 = this;
+
+      var _props = this.props,
+          x = _props.x,
+          y = _props.y,
+          reverse = _props.reverse,
+          type = _props.type;
+
+      var newX = void 0;
+      var newY = void 0;
+      if (reverse) {
+        newX = -1 * x;
+        newY = type === 'vertical' ? -1 * y : y;
+      } else {
+        newX = x;
+        newY = y;
       }
-      </Motion>
-    );
-  }
-}
+      if (!this.props.children) return null;
+      return _react2.default.createElement(
+        _reactMotion.Motion,
+        { style: this.sequenceParams[this.state.sequence] },
+        function (_ref2) {
+          var scaleX = _ref2.scaleX,
+              scaleY = _ref2.scaleY;
+          return (0, _react.cloneElement)(_this4.props.children, _extends({}, _this4.props.children.props || {}, {
+            style: _extends({}, _this4.props.children.props && _this4.props.children.props.style || {}, {
+              transform: 'translate3d(' + newX + 'px, ' + newY + 'px, 0) scaleX(' + scaleX + ') scaleY(' + scaleY + ')',
+              WebkitTransform: 'translate3d(' + newX + 'px, ' + newY + 'px, 0) scaleX(' + scaleX + ') scaleY(' + scaleY + ')',
+              position: 'absolute'
+            })
+          }));
+        }
+      );
+    }
+  }]);
+
+  return MenuItem;
+}(_react.Component);
+
+MenuItem.propTypes = {
+  x: _propTypes.number.isRequired,
+  y: _propTypes.number.isRequired,
+  name: _propTypes.string.isRequired,
+  onOpenAnimationEnd: _propTypes.func,
+  onCloseAnimationEnd: _propTypes.func,
+  bumpy: _propTypes.bool.isRequired,
+  openSpeed: _propTypes.number.isRequired,
+  reverse: _propTypes.bool.isRequired,
+  type: _propTypes.oneOf(['horizontal', 'vertical', 'circle']).isRequired
+};
+MenuItem.defaultProps = {
+  onOpenAnimationEnd: function onOpenAnimationEnd() {},
+  onCloseAnimationEnd: function onCloseAnimationEnd() {}
+};
+exports.default = MenuItem;
