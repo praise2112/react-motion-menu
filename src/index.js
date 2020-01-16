@@ -1,23 +1,20 @@
+
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
 var _propTypes = require('prop-types');
 
-var _item = require('./item');
+var _react2 = _interopRequireDefault(_react);
 
-var _item2 = _interopRequireDefault(_item);
-
-var _button = require('./button');
-
-var _button2 = _interopRequireDefault(_button);
+var _reactMotion = require('react-motion');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27,226 +24,99 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MotionMenu = function (_Component) {
-  _inherits(MotionMenu, _Component);
+var MenuButton = function (_Component) {
+  _inherits(MenuButton, _Component);
 
-  function MotionMenu(props) {
-    _classCallCheck(this, MotionMenu);
+  function MenuButton(props) {
+    _classCallCheck(this, MenuButton);
 
-    var _this = _possibleConstructorReturn(this, (MotionMenu.__proto__ || Object.getPrototypeOf(MotionMenu)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (MenuButton.__proto__ || Object.getPrototypeOf(MenuButton)).call(this, props));
 
     _this.state = {
-      itemNumber: 1,
-      status: 'idle'
+      sequence: 0
     };
-    _this.items = [];
-    _this.onOpenEnd = _this.onOpenEnd.bind(_this);
-    _this.onCloseEnd = _this.onCloseEnd.bind(_this);
-    _this.onClick = _this.onClick.bind(_this);
+    _this.sequenceParams = _this.props.bumpy ? [{
+      scaleX: (0, _reactMotion.spring)(1, { stiffness: 1500, damping: 10 }),
+      scaleY: (0, _reactMotion.spring)(1, { stiffness: 1500, damping: 10 })
+    }, {
+      scaleX: (0, _reactMotion.spring)(0.6, { stiffness: 1500, damping: 50 }),
+      scaleY: (0, _reactMotion.spring)(0.6, { stiffness: 1500, damping: 50 })
+    }, {
+      scaleX: (0, _reactMotion.spring)(1, { stiffness: 1500, damping: 10 }),
+      scaleY: (0, _reactMotion.spring)(1, { stiffness: 1500, damping: 10 })
+    }] : [{
+      scaleX: (0, _reactMotion.spring)(1, { stiffness: 1500, damping: 10 }),
+      scaleY: (0, _reactMotion.spring)(1, { stiffness: 1500, damping: 10 })
+    }, {
+      scaleX: (0, _reactMotion.spring)(1, { stiffness: 200, damping: 50 }),
+      scaleY: (0, _reactMotion.spring)(1, { stiffness: 200, damping: 50 })
+    }, {
+      scaleX: (0, _reactMotion.spring)(1, { stiffness: 1500, damping: 10 }),
+      scaleY: (0, _reactMotion.spring)(1, { stiffness: 1500, damping: 10 })
+    }];
     return _this;
   }
 
-  _createClass(MotionMenu, [{
-    key: 'onOpenEnd',
-    value: function onOpenEnd(name) {
-      if (this.state.action !== 'open') return;
-      if (this.state.itemNumber < this.props.children.length) {
-        this.items[this.state.itemNumber].start();
-        this.setState({
-          itemNumber: this.state.itemNumber + 1
-        });
-        return;
-      }
-      if (name === 'item' + (this.props.children.length - 1)) {
-        this.props.onOpen();
-      }
-    }
-  }, {
-    key: 'onCloseEnd',
-    value: function onCloseEnd(name) {
-      if (this.state.action === 'open') return;
-      if (name === 'item1') {
-        this.props.onClose();
-      }
-      if (this.state.itemNumber > 1) {
-        if (name === 'item1') {
-          this.props.onClose();
-        }
-        this.setState({
-          itemNumber: this.state.itemNumber - 1
-        });
-      }
-    }
-  }, {
-    key: 'onClick',
-    value: function onClick() {
-      if (this.state.action === 'open') {
-        this.closeItems();
-      } else {
-        this.openItem();
-      }
-    }
-  }, {
-    key: 'getDistance',
-    value: function getDistance(i) {
-      return this.props.wing ? (parseInt(i / 2, 10) + 1) * this.props.margin * (i % 2 || -1) : this.props.margin * (i + 1);
-    }
-  }, {
-    key: 'getX',
-    value: function getX(i, x) {
-      var _props = this.props,
-          type = _props.type,
-          margin = _props.margin,
-          children = _props.children;
-
-      if (type === 'horizontal') {
-        return this.getDistance(i) + x;
-      }
-      if (type === 'circle') {
-        return x + margin * Math.cos(Math.PI * 2 * i / (children.length - 1));
-      }
-      return x;
-    }
-  }, {
-    key: 'getY',
-    value: function getY(i, y) {
-      var _props2 = this.props,
-          type = _props2.type,
-          margin = _props2.margin,
-          children = _props2.children;
-
-      if (type === 'vertical') {
-        return this.getDistance(i) + y;
-      }
-      if (type === 'circle') {
-        return y + margin * Math.sin(Math.PI * 2 * i / (children.length - 1));
-      }
-      return y;
-    }
-  }, {
-    key: 'getItems',
-    value: function getItems() {
+  _createClass(MenuButton, [{
+    key: 'start',
+    value: function start() {
       var _this2 = this;
 
-      var _props3 = this.props,
-          x = _props3.x,
-          y = _props3.y,
-          bumpy = _props3.bumpy;
-
-      return Array.from(Array(this.state.itemNumber).keys()).reverse().map(function (i) {
-        return _react2.default.createElement(
-          _item2.default,
-          {
-            key: i,
-            ref: function ref(c) {
-              _this2.items[i + 1] = c;
-            },
-            name: 'item' + (i + 1),
-            onOpenAnimationEnd: _this2.onOpenEnd,
-            onCloseAnimationEnd: _this2.onCloseEnd,
-            x: _this2.getX(i, x),
-            y: _this2.getY(i, y),
-            bumpy: bumpy,
-            openSpeed: _this2.props.openSpeed,
-            reverse: _this2.props.reverse,
-            type: _this2.props.type
-          },
-          _this2.props.children[i + 1]
-        );
-      });
+      setTimeout(function () {
+        return _this2.setState({ sequence: 1 });
+      }, 100);
+      setTimeout(function () {
+        return _this2.setState({ sequence: 2 });
+      }, 150);
     }
   }, {
-    key: 'closeItems',
-    value: function closeItems() {
+    key: 'reverse',
+    value: function reverse() {
       var _this3 = this;
 
-      this.setState({ action: 'close' });
-      this.button.reverse();
-      Array.from(Array(this.state.itemNumber).keys()).reverse().forEach(function (i) {
-        return _this3.items[i + 1].reverse();
-      });
-    }
-  }, {
-    key: 'close',
-    value: function close() {
-      if (this.state.action !== 'open') return;
-      this.closeItems();
-    }
-  }, {
-    key: 'open',
-    value: function open() {
-      if (this.state.action === 'open') return;
-      this.openItem();
-    }
-  }, {
-    key: 'openItem',
-    value: function openItem() {
-      this.setState({ action: 'open' });
-      this.button.start();
-      this.items[this.state.itemNumber].start();
+      this.setState({ sequence: 1 });
+      setTimeout(function () {
+        return _this3.setState({ sequence: 0 });
+      }, 50);
     }
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
-        'div',
-        {
-          style: this.props.style,
-          className: this.props.className
-        },
-        _react2.default.createElement(
-          'div',
-          { style: { position: 'relative' } },
-          this.menuButton,
-          this.getItems()
-        )
-      );
-    }
-  }, {
-    key: 'menuButton',
-    get: function get() {
       var _this4 = this;
 
+      var _props = this.props,
+          x = _props.x,
+          y = _props.y,
+          onClick = _props.onClick;
+
+      if (!this.props.children) return null;
       return _react2.default.createElement(
-        _button2.default,
-        {
-          ref: function ref(c) {
-            _this4.button = c;
-          },
-          onClick: this.onClick,
-          x: this.props.x,
-          y: this.props.y,
-          bumpy: this.props.bumpy
-        },
-        this.props.children[0]
+          _reactMotion.Motion,
+          { style: this.sequenceParams[this.state.sequence] },
+          function (_ref) {
+            var scaleX = _ref.scaleX,
+                scaleY = _ref.scaleY;
+            return (0, _react.cloneElement)(_this4.props.children, _extends({}, _this4.props.children.props || {}, {
+              onClick: onClick,
+              style: _extends({}, _this4.props.children.props && _this4.props.children.props.style || {}, {
+                transform: 'translate3d(' + x + 'px, ' + y + 'px, 0) scaleX(' + scaleX + ') scaleY(' + scaleY + ')',
+                WebkitTransform: 'translate3d(' + x + 'px, ' + y + 'px, 0) scaleX(' + scaleX + ') scaleY(' + scaleY + ')',
+                position: 'absolute'
+              })
+            }));
+          }
       );
     }
   }]);
 
-  return MotionMenu;
+  return MenuButton;
 }(_react.Component);
 
-MotionMenu.propTypes = {
-  margin: _propTypes.number.isRequired,
-  type: _propTypes.oneOf(['horizontal', 'vertical', 'circle']).isRequired,
-  wing: _propTypes.bool,
-  x: _propTypes.number,
-  y: _propTypes.number,
-  onClose: _propTypes.func,
-  onOpen: _propTypes.func,
-  className: _propTypes.string,
-  bumpy: _propTypes.bool,
-  openSpeed: _propTypes.number,
-  reverse: _propTypes.bool
+MenuButton.propTypes = {
+  x: _propTypes.number.isRequired,
+  y: _propTypes.number.isRequired,
+  onClick: _propTypes.func,
+  bumpy: _propTypes.bool
 };
-MotionMenu.defaultProps = {
-  x: 0,
-  y: 0,
-  style: {},
-  onClose: function onClose() {},
-  onOpen: function onOpen() {},
-  bumpy: true,
-  openSpeed: 60,
-  reverse: false
-};
-exports.default = MotionMenu;
+exports.default = MenuButton;
+
